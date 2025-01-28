@@ -15,3 +15,4 @@ public function getAllStudios() {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 }
+?>
