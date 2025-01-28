@@ -36,6 +36,13 @@ CREATE TABLE notes (
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+-- Tabela logów aktywności
+CREATE TABLE activity_logs (
+    log_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(user_id) ON DELETE SET NULL,
+    activity TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 -- Indeksy dla optymalizacji
 CREATE INDEX idx_users_role ON users(role);
