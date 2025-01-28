@@ -21,3 +21,17 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+
+-- Funkcja generowania tokenu resetu hasła
+CREATE OR REPLACE FUNCTION generate_reset_token(user_email VARCHAR)
+RETURNS VARCHAR AS $$
+DECLARE
+    token VARCHAR := gen_random_uuid()::text;
+BEGIN
+    UPDATE users
+    SET reset_token = token
+    WHERE email = user_email;
+    RETURN token;
+END;
+$$ LANGUAGE plpgsql;
