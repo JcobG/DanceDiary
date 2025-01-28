@@ -49,6 +49,9 @@ CREATE INDEX idx_users_role ON users(role);
 CREATE INDEX idx_reservations_date ON reservations(reservation_date);
 CREATE INDEX idx_trainer_name ON trainer_search_view(full_name);
 
+-- Dodanie kolumny dla tokenu resetu
+ALTER TABLE users ADD COLUMN reset_token VARCHAR(255);
+
 -- Walidacja dat w tabeli rezerwacji
 ALTER TABLE reservations
 ADD CONSTRAINT check_reservation_date CHECK (reservation_date > NOW());
