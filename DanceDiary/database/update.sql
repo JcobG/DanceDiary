@@ -1,1 +1,0 @@
-ALTER TABLE users ADD COLUMN studio_id INT REFERENCES studios(studio_id) ON DELETE SET NULL;
