@@ -12,3 +12,9 @@ CREATE TRIGGER reservation_added
 AFTER INSERT ON reservations
 FOR EACH ROW
 EXECUTE FUNCTION notify_reservation();
+
+-- Wyzwalacz do logowania rezerwacji
+CREATE TRIGGER add_reservation_log
+AFTER INSERT ON reservations
+FOR EACH ROW
+EXECUTE FUNCTION log_activity();
