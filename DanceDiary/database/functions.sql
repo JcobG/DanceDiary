@@ -11,3 +11,13 @@ BEGIN
     RETURN 10 - total_reservations; -- Zakładamy, że studio ma 10 miejsc
 END;
 $$ LANGUAGE plpgsql;
+
+-- Funkcja logowania aktywności
+CREATE OR REPLACE FUNCTION log_activity()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO activity_logs (user_id, activity)
+    VALUES (NEW.user_id, 'Added a reservation');
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
