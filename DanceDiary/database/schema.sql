@@ -36,10 +36,16 @@ CREATE TABLE notes (
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 -- Indeksy dla optymalizacji
 CREATE INDEX idx_users_role ON users(role);
 CREATE INDEX idx_reservations_date ON reservations(reservation_date);
 CREATE INDEX idx_trainer_name ON trainer_search_view(full_name);
+
 -- Walidacja dat w tabeli rezerwacji
 ALTER TABLE reservations
 ADD CONSTRAINT check_reservation_date CHECK (reservation_date > NOW());
+
+-- Ograniczenie: jeden użytkownik nie może zarezerwować wielu miejsc na ten sam termin
+ALTER TABLE reservations
+ADD CONSTRAINT unique_user_reservation_per_time UNIQUE (user_id, reservation_date);
