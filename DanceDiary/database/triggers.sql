@@ -1,12 +1,4 @@
 -- Wyzwalacz: wysyłanie powiadomienia po dodaniu rezerwacji
-CREATE OR REPLACE FUNCTION notify_reservation()
-RETURNS TRIGGER AS $$
-BEGIN
-    RAISE NOTICE 'Reservation added for user_id: %, trainer_id: %, on: %', 
-        NEW.user_id, NEW.trainer_id, NEW.reservation_date;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER reservation_added
 AFTER INSERT ON reservations
