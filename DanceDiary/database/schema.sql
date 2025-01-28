@@ -16,7 +16,8 @@ CREATE TABLE studios (
     address TEXT NOT NULL,
     description TEXT,
     latitude DECIMAL(9, 6),
-    longitude DECIMAL(9, 6)
+    longitude DECIMAL(9, 6),
+    capacity INT NOT NULL CHECK (capacity > 0)
 );
 
 -- Tabela rezerwacji
