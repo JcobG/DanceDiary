@@ -41,4 +41,37 @@ class User {
         }
         return null;
     }
+    public function getProfile($userId) {
+    $query = "SELECT user_id, first_name, last_name, email, role FROM " . $this->table . " WHERE user_id = :user_id";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':user_id', $userId);
+
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+public function searchTrainers($name = null, $studio = null) {
+    $query = "SELECT full_name, studio_name FROM trainer_search_view WHERE 1=1";
+
+    if (!empty($name)) {
+        $query .= " AND full_name ILIKE :name";
+    }
+    if (!empty($studio)) {
+        $query .= " AND studio_name ILIKE :studio";
+    }
+
+    $stmt = $this->conn->prepare($query);
+
+    if (!empty($name)) {
+        $name = "%" . $name . "%";
+        $stmt->bindParam(':name', $name);
+    }
+    if (!empty($studio)) {
+        $studio = "%" . $studio . "%";
+        $stmt->bindParam(':studio', $studio);
+    }
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
