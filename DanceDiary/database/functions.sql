@@ -3,12 +3,20 @@ CREATE OR REPLACE FUNCTION count_available_spots(studio_id_input INT, reservatio
 RETURNS INT AS $$
 DECLARE
     total_reservations INT;
+    studio_capacity INT;
 BEGIN
+    -- Pobranie całkowitej liczby miejsc w studiu
+    SELECT capacity INTO studio_capacity
+    FROM studios
+    WHERE studio_id = studio_id_input;
+
+    -- Liczba już dokonanych rezerwacji
     SELECT COUNT(*) INTO total_reservations
     FROM reservations
     WHERE studio_id = studio_id_input AND reservation_date = reservation_time;
 
-    RETURN 10 - total_reservations; -- Zakładamy, że studio ma 10 miejsc
+    -- Obliczenie dostępnych miejsc
+    RETURN studio_capacity - total_reservations;
 END;
 $$ LANGUAGE plpgsql;
 
