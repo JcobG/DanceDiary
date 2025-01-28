@@ -11,3 +11,19 @@ CREATE TABLE studios (
     name VARCHAR(100) NOT NULL,
     address TEXT NOT NULL
 );
+CREATE TABLE reservations (
+    reservation_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+    trainer_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+    studio_id INT REFERENCES studios(studio_id) ON DELETE CASCADE,
+    reservation_date TIMESTAMP NOT NULL,
+    status VARCHAR(20) DEFAULT 'confirmed' CHECK (status IN ('confirmed', 'cancelled'))
+);
+
+-- Tabela notatek użytkownika
+CREATE TABLE notes (
+    note_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
