@@ -75,3 +75,4 @@ public function searchTrainers($name = null, $studio = null) {
 }
 
 }
+?>
