@@ -60,3 +60,5 @@ ADD CONSTRAINT check_reservation_date CHECK (reservation_date > NOW());
 -- Ograniczenie: jeden użytkownik nie może zarezerwować wielu miejsc na ten sam termin
 ALTER TABLE reservations
 ADD CONSTRAINT unique_user_reservation_per_time UNIQUE (user_id, reservation_date);
+ studios(studio_id) ON DELETE SET NULL
+);
