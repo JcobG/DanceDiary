@@ -8,8 +8,7 @@ async function loginUser(email, password) {
         body: JSON.stringify({ email, password }),
     });
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 }
 
 // Funkcja rejestracji
@@ -20,12 +19,5 @@ async function registerUser(userData) {
         body: JSON.stringify(userData),
     });
 
-    const data = await response.json();
-    return data;
-}
-
-// Funkcja wyszukiwania trenerów
-async function searchTrainers(name, studio) {
-    const response = await fetch(`${API_BASE_URL}/trainers?name=${name}&studio=${studio}`);
     return await response.json();
 }
