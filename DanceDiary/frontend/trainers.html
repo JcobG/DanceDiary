@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wyszukiwanie Trenerów - DanceDiary</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>DanceDiary</h1>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="reservations.html">Reservations</a></li>
+                <li><button id="logout">Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="form-container">
+            <h2>Wyszukaj Trenera</h2>
+            <form id="trainer-search-form">
+                <label for="search-name">Imię i Nazwisko:</label>
+                <input type="text" id="search-name" name="search-name" placeholder="Wpisz imię trenera">
+
+                <label for="search-studio">Studio:</label>
+                <input type="text" id="search-studio" name="search-studio" placeholder="Wpisz nazwę studia">
+
+                <button type="submit">Szukaj</button>
+            </form>
+        </section>
+
+        <section class="trainers-list">
+            <h2>Wyniki wyszukiwania</h2>
+            <ul id="results-list">
+                <li>Brak wyników.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DanceDiary. Wszelkie prawa zastrzeżone.</p>
+    </footer>
+
+    <script src="api.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (!user) {
+                window.location.href = "login.html"; // Przekierowanie, jeśli brak logowania
+            }
+
+            document.getElementById("trainer-search-form").addEventListener("submit", async function (event) {
+                event.preventDefault();
+
+                const name = document.getElementById("search-name").value;
+                const studio = document.getElementById("search-studio").value;
+
+                const results = await searchTrainers(name, studio);
+                const resultsList = document.getElementById("results-list");
+
+                resultsList.innerHTML = "";
+                if (results.length === 0) {
+                    resultsList.innerHTML = "<li>Brak wyników.</li>";
+                } else {
+                    results.forEach(trainer => {
+                        const li = document.createElement("li");
+                        li.innerText = `Trener: ${trainer.full_name}, Studio: ${trainer.studio_name}`;
+                        resultsList.appendChild(li);
+                    });
+                }
+            });
+
+            // Obsługa wylogowania
+            document.getElementById("logout").addEventListener("click", function () {
+                localStorage.removeItem("user");
+                window.location.href = "login.html";
+            });
+        });
+    </script>
+</body>
+</html>
