@@ -1,3 +1,61 @@
+/* Resetowanie domyślnych styli */
+body, h1, h2, p, ul {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Styl nagłówka i menu */
+header {
+    background-color: #ff4081;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Sekcja powitalna */
+.welcome {
+    text-align: center;
+    padding: 50px;
+    background-color: white;
+    margin: 20px auto;
+    width: 80%;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Stopka */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #ff4081;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
 /* Stylizacja formularzy */
 .form-container {
     width: 50%;
