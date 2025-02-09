@@ -1,7 +1,11 @@
 <?php
-
+/*
 require_once '../config/Database.php';
 require_once '../models/Studio.php';
+*/
+require_once __DIR__ . '/../config/Database.php';
+require_once __DIR__ . '/../models/Studio.php';
+
 
 $database = new Database();
 $db = $database->connect();
