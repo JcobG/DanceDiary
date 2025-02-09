@@ -21,3 +21,24 @@ async function registerUser(userData) {
 
     return await response.json();
 }
+// Pobieranie rezerwacji użytkownika
+async function getUserReservations(userId) {
+    const response = await fetch(`${API_BASE_URL}/reservations?user_id=${userId}`);
+    return await response.json();
+}
+
+// Funkcja dodawania rezerwacji
+async function addReservation(userId, trainerId, studioId, reservationDate) {
+    const response = await fetch(`${API_BASE_URL}/reservations`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: userId, trainer_id: trainerId, studio_id: studioId, reservation_date: reservationDate }),
+    });
+
+    return await response.json();
+}
+// Funkcja wyszukiwania trenerów
+async function searchTrainers(name, studio) {
+    const response = await fetch(`${API_BASE_URL}/trainers?name=${name}&studio=${studio}`);
+    return await response.json();
+}
