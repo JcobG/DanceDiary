@@ -19,6 +19,9 @@ switch ($path[0]) {
     case 'reservations':
         require_once 'api/reservations.php';
         break;
+    case 'trainers':
+        require_once 'api/trainers.php';
+        break;
     case 'studios':
         require_once 'api/studios.php';
         break;
