@@ -100,3 +100,28 @@ button {
 button:hover {
     background-color: #e91e63;
 }
+/* Stylizacja listy trenerów */
+.trainers-list {
+    width: 80%;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.trainers-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.trainers-list li {
+    font-size: 18px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.trainers-list li:last-child {
+    border-bottom: none;
+}
