@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - DanceDiary</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>DanceDiary</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="trainers.html">Trainers</a></li>
+                <li><a href="reservations.html">Reservations</a></li>
+                <li><button id="logout">Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="dashboard-container">
+            <h2>Witaj, <span id="user-name"></span>!</h2>
+            <h3>Twoje rezerwacje:</h3>
+            <ul id="reservations-list">
+                <li>Ładowanie rezerwacji...</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DanceDiary. Wszelkie prawa zastrzeżone.</p>
+    </footer>
+
+    <script src="api.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (!user) {
+                window.location.href = "login.html"; // Przekierowanie, jeśli brak logowania
+            }
+
+            document.getElementById("user-name").innerText = user.first_name;
+
+            // Pobieranie rezerwacji użytkownika
+            const reservations = await getUserReservations(user.user_id);
+            const reservationsList = document.getElementById("reservations-list");
+
+            reservationsList.innerHTML = "";
+            if (reservations.length === 0) {
+                reservationsList.innerHTML = "<li>Brak rezerwacji.</li>";
+            } else {
+                reservations.forEach(res => {
+                    const li = document.createElement("li");
+                    li.innerText = `Trener: ${res.trainer_name}, Studio: ${res.studio_name}, Data: ${res.reservation_date}`;
+                    reservationsList.appendChild(li);
+                });
+            }
+
+            // Obsługa wylogowania
+            document.getElementById("logout").addEventListener("click", function () {
+                localStorage.removeItem("user");
+                window.location.href = "login.html";
+            });
+        });
+    </script>
+</body>
+</html>
