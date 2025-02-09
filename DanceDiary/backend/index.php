@@ -3,7 +3,8 @@
 header("Content-Type: application/json");
 
 // Dynamiczny routing
-$path = explode('/', trim($_SERVER['PATH_INFO'], '/'));
+//$path = explode('/', trim($_SERVER['PATH_INFO'], '/'));
+$path = isset($_SERVER['PATH_INFO']) ? explode('/', trim($_SERVER['PATH_INFO'], '/')) : [];
 
 if (empty($path[0])) {
     echo json_encode(["message" => "Welcome to DanceDiary API!"]);
