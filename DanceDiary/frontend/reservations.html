@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezerwacje - DanceDiary</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>DanceDiary</h1>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="trainers.html">Trainers</a></li>
+                <li><button id="logout">Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="form-container">
+            <h2>Dodaj rezerwację</h2>
+            <form id="reservation-form">
+                <label for="trainer_id">Trener:</label>
+                <input type="number" id="trainer_id" name="trainer_id" required>
+
+                <label for="studio_id">Studio:</label>
+                <input type="number" id="studio_id" name="studio_id" required>
+
+                <label for="reservation_date">Data i godzina:</label>
+                <input type="datetime-local" id="reservation_date" name="reservation_date" required>
+
+                <button type="submit">Dodaj rezerwację</button>
+            </form>
+        </section>
+
+        <section class="reservations-list">
+            <h2>Twoje rezerwacje</h2>
+            <ul id="reservations-list">
+                <li>Ładowanie rezerwacji...</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DanceDiary. Wszelkie prawa zastrzeżone.</p>
+    </footer>
+
+    <script src="api.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (!user) {
+                window.location.href = "login.html"; // Przekierowanie, jeśli brak logowania
+            }
+
+            document.getElementById("reservation-form").addEventListener("submit", async function (event) {
+                event.preventDefault();
+
+                const trainerId = document.getElementById("trainer_id").value;
+                const studioId = document.getElementById("studio_id").value;
+                const reservationDate = document.getElementById("reservation_date").value;
+
+                const response = await addReservation(user.user_id, trainerId, studioId, reservationDate);
+                if (response.success) {
+                    alert("Rezerwacja dodana!");
+                    location.reload();
+                } else {
+                    alert("Nie udało się dodać rezerwacji.");
+                }
+            });
+
+            // Pobieranie rezerwacji użytkownika
+            const reservations = await getUserReservations(user.user_id);
+            const reservationsList = document.getElementById("reservations-list");
+
+            reservationsList.innerHTML = "";
+            if (reservations.length === 0) {
+                reservationsList.innerHTML = "<li>Brak rezerwacji.</li>";
+            } else {
+                reservations.forEach(res => {
+                    const li = document.createElement("li");
+                    li.innerText = `Trener: ${res.trainer_name}, Studio: ${res.studio_name}, Data: ${res.reservation_date}`;
+                    reservationsList.appendChild(li);
+                });
+            }
+        });
+
+        // Obsługa wylogowania
+        document.getElementById("logout").addEventListener("click", function () {
+            localStorage.removeItem("user");
+            window.location.href = "login.html";
+        });
+    </script>
+</body>
+</html>
