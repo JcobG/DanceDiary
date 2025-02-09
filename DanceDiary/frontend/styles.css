@@ -125,3 +125,27 @@ button:hover {
 .trainers-list li:last-child {
     border-bottom: none;
 }
+/* Responsywność dla ekranów mobilnych */
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+
+    .form-container, .trainers-list {
+        width: 90%;
+    }
+
+    nav ul {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+
+    button {
+        width: 100%;
+    }
+}
