@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logowanie - DanceDiary</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>DanceDiary</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="form-container">
+            <h2>Zaloguj się</h2>
+            <form id="login-form">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="password">Hasło:</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit">Zaloguj</button>
+            </form>
+            <p>Nie masz konta? <a href="register.html">Zarejestruj się</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DanceDiary. Wszelkie prawa zastrzeżone.</p>
+    </footer>
+
+    <script src="api.js"></script>
+    <script>
+        document.getElementById("login-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const response = await loginUser(email, password);
+
+            if (response.success) {
+                localStorage.setItem("user", JSON.stringify(response.user));
+                window.location.href = "dashboard.html"; // Przekierowanie po zalogowaniu
+            } else {
+                alert("Niepoprawne dane logowania!");
+            }
+        });
+    </script>
+</body>
+</html>
