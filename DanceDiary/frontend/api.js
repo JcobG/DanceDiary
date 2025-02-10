@@ -80,3 +80,30 @@ async function addReservation(userId, trainerId, studioId, reservationDate) {
         return { success: false, message: "Nie udało się dodać rezerwacji. Sprawdź połączenie z serwerem." };
     }
 }
+// Sprawdza, czy użytkownik jest zalogowany
+function checkUserSession() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    return user ? user : null;
+}
+
+// Obsługa wylogowania
+function logoutUser() {
+    localStorage.removeItem("user");
+    window.location.href = "index.html"; // Przekierowanie na stronę główną po wylogowaniu
+}
+
+// Automatycznie ukrywa/pokazuje przyciski logowania i rejestracji
+document.addEventListener("DOMContentLoaded", () => {
+    const user = checkUserSession();
+    if (user) {
+        document.getElementById("login-link")?.classList.add("hidden");
+        document.getElementById("register-link")?.classList.add("hidden");
+        document.getElementById("logout-link")?.classList.remove("hidden");
+    } else {
+        document.getElementById("logout-link")?.classList.add("hidden");
+    }
+
+    // Obsługa kliknięcia w Logout
+    document.getElementById("logout-link")?.addEventListener("click", logoutUser);
+});
+
