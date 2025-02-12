@@ -57,6 +57,10 @@ DanceDiary/
 - **Backend:** PHP (bez frameworka)
 - **Baza danych:** PostgreSQL
 
+##  Diagram ERD
+
+![dance_diary - database ](https://github.com/user-attachments/assets/71dc4fe4-6d6c-4bb7-b572-ad2fb702ed49)
+
 ##  Jak uruchomić projekt
 
 ### **1. Konfiguracja bazy danych**
