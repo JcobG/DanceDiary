@@ -26,6 +26,24 @@
             <ul id="reservations-list">
                 <li>Ładowanie rezerwacji...</li>
             </ul>
+            <h3>Mój Profil</h3>
+            <div class="profile-container">
+                <div>
+                    <label>Numer telefonu:</label>
+                    <input type="text" id="phone-input">
+                </div>
+
+                <div>
+                    <label>Data urodzenia:</label>
+                    <input type="date" id="birthdate-input">
+                </div>
+
+                <div>
+                    <label>Opis:</label>
+                    <textarea id="bio-input"></textarea>
+                </div>
+                <button id="save-profile">Zapisz zmiany</button>
+            </div>
         </section>
     </main>
 
@@ -42,7 +60,33 @@
             }
 
             document.getElementById("user-name").innerText = user.first_name;
+            // Załadowanie profilu użytkownika
+            const profile = await getUserProfile(user.user_id);
+            if (profile) {
+                document.getElementById("phone-input").value = profile.phone_number || "";
+                document.getElementById("birthdate-input").value = profile.birthdate || "";
+                document.getElementById("bio-input").value = profile.bio || "";
+            }
+            // Obsługa przycisku "Zapisz zmiany"
+            document.getElementById("save-profile").addEventListener("click", async function () {
+                const profileData = {
+                    phone_number: document.getElementById("phone-input").value,
+                    birthdate: document.getElementById("birthdate-input").value,
+                    bio: document.getElementById("bio-input").value
+                };
 
+                const response = await updateUserProfile(user.user_id, profileData);
+                if (response.success) {
+                    alert("Profil zaktualizowany!");
+                    // Pobierz ponownie dane profilu po zapisaniu zmian
+                    const updatedProfile = await getUserProfile(user.user_id);
+                    document.getElementById("phone-input").value = updatedProfile.phone_number || "";
+                    document.getElementById("birthdate-input").value = updatedProfile.birthdate || "";
+                    document.getElementById("bio-input").value = updatedProfile.bio || "";
+                } else {
+                    alert("Nie udało się zaktualizować profilu.");
+                }
+            });
             // Pobieranie rezerwacji użytkownika
             const reservations = await getUserReservations(user.user_id);
             const reservationsList = document.getElementById("reservations-list");

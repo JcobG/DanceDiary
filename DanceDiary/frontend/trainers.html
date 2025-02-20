@@ -65,11 +65,36 @@
                 if (results.length === 0) {
                     resultsList.innerHTML = "<li>Brak wyników.</li>";
                 } else {
-                    results.forEach(trainer => {
+                    for (const trainer of results) {
                         const li = document.createElement("li");
                         li.innerText = `Trener: ${trainer.full_name}, Studio: ${trainer.studio_name}`;
+                        // Pobranie specjalizacji trenera
+                        const specializations = await getTrainerSpecializations(trainer.user_id);
+                        document.getElementById(`spec-${trainer.user_id}`).innerText = specializations.join(", ") || "Brak specjalizacji";
+
+                        // Jeśli użytkownik to trener, umożliwiamy edycję
+                        if (user.role === "trener" && user.user_id === trainer.user_id) {
+                            const input = document.createElement("input");
+                            input.placeholder = "Dodaj specjalizację";
+                            const addBtn = document.createElement("button");
+                            addBtn.innerText = "+";
+                            addBtn.addEventListener("click", async () => {
+                                await addTrainerSpecialization(trainer.user_id, input.value);
+                                location.reload();
+                            });
+
+                            const removeBtn = document.createElement("button");
+                            removeBtn.innerText = "-";
+                            removeBtn.addEventListener("click", async () => {
+                                await deleteTrainerSpecialization(trainer.user_id, input.value);
+                                location.reload();
+                            });
+                            li.appendChild(input);
+                            li.appendChild(addBtn);
+                            li.appendChild(removeBtn);
+                        }
                         resultsList.appendChild(li);
-                    });
+                    };
                 }
             });
 

@@ -44,11 +44,24 @@ CREATE TABLE activity_logs (
     activity TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+-- Tabela specjalizacji trenerów
+CREATE TABLE trainer_specializations (
+    trainer_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+    specialization VARCHAR(100) NOT NULL,
+    PRIMARY KEY (trainer_id, specialization)
+);
+
+-- Tabela profili użytkowników
+CREATE TABLE user_profiles (
+    user_id INT PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE,
+    phone_number VARCHAR(20) UNIQUE,
+    birthdate DATE,
+    bio TEXT
+);
 
 -- Indeksy dla optymalizacji
 CREATE INDEX idx_users_role ON users(role);
 CREATE INDEX idx_reservations_date ON reservations(reservation_date);
---CREATE INDEX idx_trainer_name ON trainer_search_view(full_name);
 
 -- Dodanie kolumny dla tokenu resetu
 ALTER TABLE users ADD COLUMN reset_token VARCHAR(255);
@@ -57,10 +70,3 @@ ALTER TABLE users ADD COLUMN reset_token VARCHAR(255);
 -- Ograniczenie: jeden użytkownik nie może zarezerwować wielu miejsc na ten sam termin
 ALTER TABLE reservations
     ADD CONSTRAINT unique_user_reservation_per_time UNIQUE (user_id, reservation_date);
-/*
--- Ograniczenie: jeden użytkownik nie może zarezerwować wielu miejsc na ten sam termin
-ALTER TABLE reservations
-ADD CONSTRAINT unique_user_reservation_per_time UNIQUE (user_id, reservation_date);
- studios(studio_id) ON DELETE SET NULL
-);
-*/

@@ -91,6 +91,83 @@ function logoutUser() {
     localStorage.removeItem("user");
     window.location.href = "index.html"; // Przekierowanie na stronę główną po wylogowaniu
 }
+// Pobiera profil użytkownika
+async function getUserProfile(userId) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/users/profile/${userId}`);
+        if (!response.ok) throw new Error("Błąd pobierania profilu użytkownika");
+
+        return await response.json();
+    } catch (error) {
+        console.error("Błąd pobierania profilu:", error);
+        return null;
+    }
+}
+
+// Aktualizuje profil użytkownika
+async function updateUserProfile(userId, profileData) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/users/profile/${userId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(profileData),
+        });
+
+        if (!response.ok) throw new Error("Błąd aktualizacji profilu");
+
+        return await response.json();
+    } catch (error) {
+        console.error("Błąd aktualizacji profilu:", error);
+        return { success: false, message: "Nie udało się zaktualizować profilu" };
+    }
+}
+// Pobiera specjalizacje danego trenera
+async function getTrainerSpecializations(trainerId) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/trainers/specializations/${trainerId}`);
+        if (!response.ok) throw new Error("Błąd pobierania specjalizacji");
+
+        return await response.json();
+    } catch (error) {
+        console.error("Błąd pobierania specjalizacji:", error);
+        return [];
+    }
+}
+
+// Dodaje nową specjalizację dla trenera
+async function addTrainerSpecialization(trainerId, specialization) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/trainers/specializations/${trainerId}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ specialization }),
+        });
+
+        if (!response.ok) throw new Error("Błąd dodawania specjalizacji");
+
+        return await response.json();
+    } catch (error) {
+        console.error("Błąd dodawania specjalizacji:", error);
+        return { success: false, message: "Nie udało się dodać specjalizacji" };
+    }
+}
+
+// Usuwa specjalizację trenera
+async function deleteTrainerSpecialization(trainerId, specialization) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/trainers/specializations/${trainerId}/${encodeURIComponent(specialization)}`, {
+            method: "DELETE",
+        });
+
+        if (!response.ok) throw new Error("Błąd usuwania specjalizacji");
+
+        return await response.json();
+    } catch (error) {
+        console.error("Błąd usuwania specjalizacji:", error);
+        return { success: false, message: "Nie udało się usunąć specjalizacji" };
+    }
+}
+
 
 // Automatycznie ukrywa/pokazuje przyciski logowania i rejestracji
 document.addEventListener("DOMContentLoaded", () => {
